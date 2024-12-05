@@ -7,7 +7,20 @@ public class GradeBook {
         Scanner input = new Scanner(System.in);
 
         // TODO: initialize students from contents of grades.txt file
-
+        Scanner fileInput = new Scanner(new File("grades.txt"));
+        int numStudents = Integer.parseInt(fileInput.nextLine());
+        students = new Student[numStudents];
+        while(fileInput.hasNext())
+        {
+            for(int i = 0; i < numStudents; i++)
+            {
+                String[] temp = fileInput.nextLine().split(",");
+                students[i] = new Student();
+                students[i].setFirstName(temp[0]);
+                students[i].setLastName(temp[1]);
+                students[i].setGrade(Double.parseDouble(temp[2]));
+            }
+        }
         System.out.println("Welcome to the CM111 Grade Book App!");
 
         while(true) {
@@ -45,6 +58,16 @@ public class GradeBook {
                     break;
                 case "3":
                     // Challenge: write code to save the grades to grades.txt
+                    PrintWriter fout = new PrintWriter(new File("grades.txt"));
+                    fout.println(students.length);
+                    for(int i = 0; i < students.length; i++){
+                       fout.printf("%s,%s,%.2f%n",students[i].getFirstName(),
+                                                  students[i].getLastName(),
+                                                  students[i].getGrade());
+                    }
+                    fout.close();
+                    System.out.println("Grades saved!");
+                    continue;
                     System.out.println("Goodbye!");
                     return;
 
